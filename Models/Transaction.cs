@@ -6,6 +6,8 @@ namespace Periodic.Models
 
         public int UserId{get; set;}
 
+        public string TransactionName{get;set;}
+
         public int FromAccountId {get; set;}
 
         public int ToAccountId{get; set;}
