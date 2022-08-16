@@ -24,6 +24,7 @@ namespace Periodic.Data
             else
             {
                 _ctx.Accounts.Add(new_acc);
+                _ctx.SaveChanges();
             }
         }
 
@@ -41,6 +42,7 @@ namespace Periodic.Data
             else
             {
                 _ctx.ScheduledTransactions.Add(new_sch);
+                _ctx.SaveChanges();
             }
         }
 
@@ -57,6 +59,7 @@ namespace Periodic.Data
             else
             {
                 _ctx.Transactions.Add(trns);
+                _ctx.SaveChanges();
             }
         }
 
@@ -64,16 +67,19 @@ namespace Periodic.Data
         {
             var acc_db = this._ctx.Accounts.FirstOrDefault(x => x.Id == acc_id);
             this._ctx.Accounts.Remove(acc_db);
+            _ctx.SaveChanges();
         }
 
         public void DeleteSchedule(Scheduled sch)
         {
             _ctx.ScheduledTransactions.Remove(sch);
+            _ctx.SaveChanges();
         }
 
         public void DeleteTransaction(Transaction trns)
         {
             _ctx.Transactions.Remove(trns);
+            _ctx.SaveChanges();
         }
 
         public Account GetAccountById(int usr_id, int acc_id)
@@ -116,6 +122,7 @@ namespace Periodic.Data
             else
             {
                 this._ctx.Accounts.Update(new_acc);
+                this._ctx.SaveChanges();
             }
         }
 
@@ -123,11 +130,14 @@ namespace Periodic.Data
         {
             this._ctx.ScheduledTransactions.Update(new_sch);
             //add code here to delete all future dated transactions and re-create them to match this update
+
+            _ctx.SaveChanges();
         }
 
         public void UpdateTransaction(Transaction trns)
         {
             this._ctx.Transactions.Update(trns);
+            this._ctx.SaveChanges();
         }
 
     }
