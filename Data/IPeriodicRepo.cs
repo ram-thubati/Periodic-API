@@ -13,7 +13,7 @@ namespace Periodic.Data
 
         public void UpdateAccount(Account new_acc);
 
-        public void DeleteAccount(Account acc);
+        public void DeleteAccount(int acc_id);
 
         //Transactions
         public IEnumerable<Transaction> GetAllTransactionsByuserId(int user_id);

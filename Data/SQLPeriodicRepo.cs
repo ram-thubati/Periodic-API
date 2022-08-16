@@ -60,17 +60,10 @@ namespace Periodic.Data
             }
         }
 
-        public void DeleteAccount(Account acc)
+        public void DeleteAccount(int acc_id)
         {
-            try
-            {
-                _ctx.Accounts.Remove(acc);
-            }
-            catch(Exception e)
-            {
-                throw e;
-            }
-            
+            var acc_db = this._ctx.Accounts.FirstOrDefault(x => x.Id == acc_id);
+            this._ctx.Accounts.Remove(acc_db);
         }
 
         public void DeleteSchedule(Scheduled sch)
