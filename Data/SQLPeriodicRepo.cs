@@ -44,69 +44,98 @@ namespace Periodic.Data
             }
         }
 
-        public bool CreateTransaction(Transaction trns)
+        public void CreateTransaction(Transaction trns)
         {
-            throw new NotImplementedException();
+            if(trns.FromAccountId == 0 && trns.ToAccountId == 0)
+            {
+                throw new Exception("Both from and to accounts should not be empty");
+            }
+            else if(trns.Amount == 0)
+            {
+                throw new Exception("Amount cannot be Zero");
+            }
+            else
+            {
+                _ctx.Transactions.Add(trns);
+            }
         }
 
         public void DeleteAccount(Account acc)
         {
-            throw new NotImplementedException();
+            try
+            {
+                _ctx.Accounts.Remove(acc);
+            }
+            catch(Exception e)
+            {
+                throw e;
+            }
+            
         }
 
-        public bool DeleteSchedule(Scheduled sch)
+        public void DeleteSchedule(Scheduled sch)
         {
-            throw new NotImplementedException();
+            _ctx.ScheduledTransactions.Remove(sch);
         }
 
         public void DeleteTransaction(Transaction trns)
         {
-            throw new NotImplementedException();
+            _ctx.Transactions.Remove(trns);
         }
 
         public Account GetAccountById(int usr_id, int acc_id)
         {
-            throw new NotImplementedException();
+            return this._ctx.Accounts.FirstOrDefault(x => x.UserId == usr_id && x.Id == acc_id);
         }
 
         public IEnumerable<Account> GetAllAccountsByUserId(int usr_id)
         {
-            throw new NotImplementedException();
+            return this._ctx.Accounts.Where(x => x.UserId == usr_id);
         }
 
         public IEnumerable<Scheduled> GetAllScheduledByUserId(int usr_id)
         {
-            throw new NotImplementedException();
+            return this._ctx.ScheduledTransactions.Where(x => x.UserId == usr_id);
         }
 
         public IEnumerable<Transaction> GetAllTransactionsByuserId(int user_id)
         {
-            throw new NotImplementedException();
+            return this._ctx.Transactions.Where(x => x.UserId == user_id);
         }
 
         public Scheduled GetScheduledById(int usr_id, int id)
         {
-            throw new NotImplementedException();
+            return this._ctx.ScheduledTransactions.FirstOrDefault(x => x.UserId == usr_id && x.Id == id);
         }
 
         public Transaction GetTransactionById(int usr_id, int trns_id)
         {
-            throw new NotImplementedException();
+            return this._ctx.Transactions.FirstOrDefault(x => x.UserId == usr_id && x.Id == trns_id);
         }
 
-        public bool UpdateAccount(Account new_acc)
+        public void UpdateAccount(Account new_acc)
         {
-            throw new NotImplementedException();
+            var existing_acc = GetAccountById(new_acc.UserId, new_acc.Id);
+            if(existing_acc is null)
+            {
+                throw new Exception($"Account with Id {new_acc.Id} couldn't be found");
+            }
+            else
+            {
+                this._ctx.Accounts.Update(new_acc);
+            }
         }
 
-        public bool UpdateSchedule(Scheduled new_sch)
+        public void UpdateSchedule(Scheduled new_sch)
         {
-            throw new NotImplementedException();
+            this._ctx.ScheduledTransactions.Update(new_sch);
+            //add code here to delete all future dated transactions and re-create them to match this update
         }
 
-        public bool UpdateTransaction(Transaction trns)
+        public void UpdateTransaction(Transaction trns)
         {
-            throw new NotImplementedException();
+            this._ctx.Transactions.Update(trns);
         }
+
     }
 }
