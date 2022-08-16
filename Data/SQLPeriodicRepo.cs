@@ -42,6 +42,7 @@ namespace Periodic.Data
             else
             {
                 _ctx.ScheduledTransactions.Add(new_sch);
+                //after new Scheduled transaction is created, create future dated Transactions in transaction table
                 _ctx.SaveChanges();
             }
         }
@@ -73,6 +74,7 @@ namespace Periodic.Data
         public void DeleteSchedule(Scheduled sch)
         {
             _ctx.ScheduledTransactions.Remove(sch);
+            //also delete the future dated transactions
             _ctx.SaveChanges();
         }
 
