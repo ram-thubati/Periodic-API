@@ -1,5 +1,6 @@
 using Periodic.Models;
 using Periodic.Helpers;
+using Microsoft.EntityFrameworkCore;
 
 namespace Periodic.Data
 {
@@ -141,21 +142,20 @@ namespace Periodic.Data
             }
         }
 
-        public void UpdateSchedule(int sch_id, Scheduled new_sch)
+        public void UpdateSchedule(int sch_id, Scheduled updated_sch)
         {
-            var sch_db = this._ctx.ScheduledTransactions.FirstOrDefault(x => x.Id == sch_id);
-            new_sch.Id = sch_id;
-            _ctx.ScheduledTransactions.Update(new_sch);
+            var sch_db = this._ctx.ScheduledTransactions.AsNoTracking().FirstOrDefault(x => x.Id == sch_id);
+            updated_sch.Id = sch_id;
+            _ctx.ScheduledTransactions.Update(updated_sch);
             
-            //add code here to delete all future dated transactions and re-create them to match this update
             _ctx.Transactions.RemoveRange(_ctx.Transactions.Where(
-                                                x => x.CreatedByEntityId == new_sch.Id && 
+                                                x => x.CreatedByEntityId == updated_sch.Id && 
                                                 x.CreatedbyEntityType == 'S' && 
                                                 x.EffectiveDate > DateTime.Now
                                             ));
             
-            var hangman = new Hangman(new_sch);
-            var future_trns = hangman.GetFutureTransactions(new_sch);
+            var hangman = new Hangman(updated_sch);
+            var future_trns = hangman.GetFutureTransactions(updated_sch);
             _ctx.Transactions.AddRange(future_trns);
 
             _ctx.SaveChanges();
