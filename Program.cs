@@ -14,6 +14,7 @@ builder.Services.AddSwaggerGen();
 builder.Services.AddDbContext<SQLPeriodicDbContext>(options => options.UseSqlServer(Secrets.SQLConnectionString));
 
 builder.Services.AddScoped<IPeriodicRepo, SQLPeriodicRepo>();
+builder.Services.AddScoped<IAuthRepo, SQLAuthRepo>();
 
 
 var app = builder.Build();

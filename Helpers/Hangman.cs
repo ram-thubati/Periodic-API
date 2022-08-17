@@ -24,6 +24,7 @@ namespace Periodic.Helpers
             {
                 var new_trn = new Transaction();
                 new_trn.UserId = sch.UserId;
+                new_trn.TransactionName = sch.TransactionName;
                 new_trn.FromAccountId = sch.FromAccountId;
                 new_trn.ToAccountId = sch.ToAccountId;
                 new_trn.Amount = sch.Amount;

@@ -4,12 +4,12 @@ using Periodic.Data;
 using Periodic.Models.Requests;
 using Periodic.Secret;
 
-namespace AuthServer.Services
+namespace Periodic.Data
 {
     public class SQLAuthRepo : IAuthRepo
     {
-        private UserDbContext _userContext;
-        public SQLAuthRepo(UserDbContext ctx)
+        private SQLPeriodicDbContext _userContext;
+        public SQLAuthRepo(SQLPeriodicDbContext ctx)
         {
             this._userContext = ctx;
         }

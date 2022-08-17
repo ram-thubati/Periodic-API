@@ -141,9 +141,11 @@ namespace Periodic.Data
             }
         }
 
-        public void UpdateSchedule(Scheduled new_sch)
+        public void UpdateSchedule(int sch_id, Scheduled new_sch)
         {
-            this._ctx.ScheduledTransactions.Update(new_sch);
+            var sch_db = this._ctx.ScheduledTransactions.FirstOrDefault(x => x.Id == sch_id);
+            new_sch.Id = sch_id;
+            _ctx.ScheduledTransactions.Update(new_sch);
             
             //add code here to delete all future dated transactions and re-create them to match this update
             _ctx.Transactions.RemoveRange(_ctx.Transactions.Where(

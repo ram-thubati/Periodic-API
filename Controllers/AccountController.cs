@@ -6,7 +6,7 @@ using Periodic.Models;
 
 namespace Periodic.Controllers
 {
-    [Route("api/users/{usr_id:int}/Accounts")]
+    [Route("api/users/{usr_id:int}/accounts")]
     [ApiController]
     public class AccountController : ControllerBase
     {

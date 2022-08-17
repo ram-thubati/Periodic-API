@@ -32,7 +32,7 @@ namespace Periodic.Data
 
         public Scheduled GetScheduledById(int usr_id, int id);
 
-        public void UpdateSchedule(Scheduled new_sch);
+        public void UpdateSchedule(int sch_id, Scheduled new_sch);
 
         public void DeleteSchedule(Scheduled sch);
 

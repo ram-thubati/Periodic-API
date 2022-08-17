@@ -15,5 +15,7 @@ namespace Periodic.Data
         public DbSet<Transaction> Transactions{get; set;}
 
         public DbSet<Scheduled> ScheduledTransactions{get; set;}
+
+        public DbSet<User> Users{get;set;}
     }
 }

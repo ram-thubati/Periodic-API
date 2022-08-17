@@ -29,12 +29,12 @@ namespace Periodic.Controllers
             return Ok(this._repo.GetScheduledById(usr_id,sch_id));
         }
 
-        [Route("{sch_id:int")]
+        [Route("{sch_id:int}")]
         [HttpPut]
-        public ActionResult<Scheduled> UpdateScheduled([FromBody]Scheduled sch)
+        public ActionResult<Scheduled> UpdateScheduled([FromRoute]int sch_id, [FromBody]Scheduled new_sch)
         {
-            this._repo.UpdateSchedule(sch);
-            return Ok(sch);
+            this._repo.UpdateSchedule(sch_id, new_sch);
+            return Ok(new_sch);
         }
 
         [HttpPost]

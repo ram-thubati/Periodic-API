@@ -5,7 +5,7 @@ using Periodic.Data;
 
 namespace Periodic.Controllers
 {
-    [Route("/api/users/{usr_id:int}/transactions")]
+    [Route("api/users/{usr_id:int}/transactions")]
     [ApiController]
     public class TransactionController : ControllerBase
     {
@@ -22,7 +22,7 @@ namespace Periodic.Controllers
             return Ok(this._repo.GetAllTransactionsByuserId(usr_id));
         }
 
-        [Route("{trns_id:int")]
+        [Route("{trns_id:int}")]
         [HttpGet]
         public ActionResult<Transaction> GetTransactionById([FromRoute]int usr_id, [FromRoute]int trns_id)
         {
