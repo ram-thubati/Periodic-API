@@ -14,7 +14,7 @@ namespace Periodic.Models
 
         [Required]
         [MaxLength(128), MinLength(4)]
-        public string Fullname{get;set;}
+        public string FullName{get;set;}
 
         public string PasswordHash{get;set;}
 

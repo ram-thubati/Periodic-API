@@ -5,7 +5,7 @@ using Periodic.Models.Requests;
 
 namespace Periodic.Controllers
 {
-    [Route("/api/auth")]
+    [Route("api/auth")]
     [ApiController]
     public class UserController : ControllerBase
     {
@@ -20,12 +20,12 @@ namespace Periodic.Controllers
         [HttpPost]
         public ActionResult<string> LoginUser([FromBody]LoginRequest lreq)
         {
-            if(_arepo.LoginUser(lreq))
+            try
             {
-                var token = "Jwttoken";
-                return Ok(token);                
+                var token = this._arepo.LoginUser(lreq);
+                return Ok(token);
             }
-            else
+            catch(Exception e)
             {
                 return Unauthorized("Invalid credentials");
             }
@@ -35,16 +35,16 @@ namespace Periodic.Controllers
         [HttpPost]
         public ActionResult SignupUser([FromBody]SignupRequest sreq)
         {
-            var status = this._arepo.SignupUser(sreq);
-            if(status)
+            try
             {
+                this._arepo.SignupUser(sreq);
                 return Ok();
             }
-            else
+            catch(Exception e)
             {
                 return BadRequest();
             }
-
+            
         }
 
     }

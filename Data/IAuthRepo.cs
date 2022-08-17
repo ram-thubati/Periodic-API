@@ -5,9 +5,9 @@ namespace Periodic.Data
 {
     public interface IAuthRepo
     {
-        public bool SignupUser(SignupRequest sreq);
+        public void SignupUser(SignupRequest sreq);
 
-        public bool LoginUser(LoginRequest lreq);
+        public string LoginUser(LoginRequest lreq);
 
     }
 }
