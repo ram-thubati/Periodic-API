@@ -1,4 +1,5 @@
 using Periodic.Models;
+using Periodic.Helpers;
 
 namespace Periodic.Data
 {
@@ -42,7 +43,12 @@ namespace Periodic.Data
             else
             {
                 _ctx.ScheduledTransactions.Add(new_sch);
+                
                 //after new Scheduled transaction is created, create future dated Transactions in transaction table
+                var hangman = new Hangman(new_sch);
+                var future_trns = hangman.GetFutureTransactions(new_sch);
+                _ctx.Transactions.AddRange(future_trns);
+                
                 _ctx.SaveChanges();
             }
         }
@@ -74,7 +80,14 @@ namespace Periodic.Data
         public void DeleteSchedule(Scheduled sch)
         {
             _ctx.ScheduledTransactions.Remove(sch);
+
             //also delete the future dated transactions
+            _ctx.Transactions.RemoveRange(_ctx.Transactions.Where(
+                                                x => x.CreatedByEntityId == sch.Id && 
+                                                x.CreatedbyEntityType == 'S' && 
+                                                x.EffectiveDate > DateTime.Now
+                                            ));
+
             _ctx.SaveChanges();
         }
 
@@ -131,7 +144,17 @@ namespace Periodic.Data
         public void UpdateSchedule(Scheduled new_sch)
         {
             this._ctx.ScheduledTransactions.Update(new_sch);
+            
             //add code here to delete all future dated transactions and re-create them to match this update
+            _ctx.Transactions.RemoveRange(_ctx.Transactions.Where(
+                                                x => x.CreatedByEntityId == new_sch.Id && 
+                                                x.CreatedbyEntityType == 'S' && 
+                                                x.EffectiveDate > DateTime.Now
+                                            ));
+            
+            var hangman = new Hangman(new_sch);
+            var future_trns = hangman.GetFutureTransactions(new_sch);
+            _ctx.Transactions.AddRange(future_trns);
 
             _ctx.SaveChanges();
         }
