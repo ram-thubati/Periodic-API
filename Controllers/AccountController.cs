@@ -42,10 +42,10 @@ namespace Periodic.Controllers
 
         [Route("{acc_id:int}")]
         [HttpPut]
-        public ActionResult UpdateAccount([FromRoute]int acc_id, [FromBody]Account new_acc)
+        public ActionResult<Account> UpdateAccount([FromRoute]int acc_id, [FromBody]Account new_acc)
         {
             this._repo.UpdateAccount(new_acc);
-            return Ok($"Account {new_acc.AccountName} updated");
+            return Ok(new_acc);
         }
 
         [Route("{acc_id:int}")]

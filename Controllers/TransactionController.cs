@@ -38,10 +38,10 @@ namespace Periodic.Controllers
 
         [Route("{trns_id:int}")]
         [HttpPut]
-        public ActionResult UpdateTransaction(Transaction trns)
+        public ActionResult<Transaction> UpdateTransaction(Transaction trns)
         {
             this._repo.CreateTransaction(trns);
-            return Ok($"Transaction {trns.TransactionName} created");
+            return Ok(trns);
         }
 
         [Route("{trns_id:int}")]

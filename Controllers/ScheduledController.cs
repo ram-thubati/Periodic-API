@@ -31,10 +31,10 @@ namespace Periodic.Controllers
 
         [Route("{sch_id:int")]
         [HttpPut]
-        public ActionResult UpdateScheduled([FromBody]Scheduled sch)
+        public ActionResult<Scheduled> UpdateScheduled([FromBody]Scheduled sch)
         {
             this._repo.UpdateSchedule(sch);
-            return Ok();
+            return Ok(sch);
         }
 
         [HttpPost]
