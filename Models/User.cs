@@ -25,5 +25,7 @@ namespace Periodic.Models
 
         [Required]
         public bool IsEnabled{get;set;} 
+
+        public bool IsAdmin{get;set;}
     }
 }

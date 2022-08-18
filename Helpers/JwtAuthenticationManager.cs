@@ -8,7 +8,7 @@ namespace Periodic.Helpers
     public class JwtAuthenticationManager
     {
 
-        public static string GetToken(int userId, string signingKey)
+        public static string GetToken(int userId, string role, string signingKey)
         {
 
             var tokenhndlr = new JwtSecurityTokenHandler();
@@ -17,9 +17,10 @@ namespace Periodic.Helpers
             {
                 Subject = new ClaimsIdentity(new Claim[]
                 {
-                    new Claim(ClaimTypes.NameIdentifier, userId.ToString())
+                    new Claim(ClaimTypes.NameIdentifier, userId.ToString()),
+                    new Claim(ClaimTypes.Role, role.ToString())
                 }),
-                Expires = DateTime.UtcNow.AddMinutes(15),
+                Expires = DateTime.UtcNow.AddMinutes(60),
                 SigningCredentials = new SigningCredentials(
                     new SymmetricSecurityKey(tokenKey),
                     SecurityAlgorithms.HmacSha256Signature)
