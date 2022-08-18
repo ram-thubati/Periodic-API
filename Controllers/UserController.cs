@@ -1,3 +1,4 @@
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Periodic.Data;
 using Periodic.Helpers;
@@ -5,6 +6,7 @@ using Periodic.Models.Requests;
 
 namespace Periodic.Controllers
 {
+    [AllowAnonymous]
     [Route("api/auth")]
     [ApiController]
     public class UserController : ControllerBase

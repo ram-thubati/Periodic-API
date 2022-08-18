@@ -23,7 +23,9 @@ namespace Periodic.Data
                 var isMatch = hashing.Verify(lreq.Password, db_usr.PasswordHash);
                 if (isMatch)
                 {
-                    return JwtAuthenticationManager.GetToken(db_usr.Id, Secrets.JwtSigningKey);
+                    string role = db_usr.IsAdmin? "Administrator" : "User";
+                    
+                    return JwtAuthenticationManager.GetToken(db_usr.Id, role, Secrets.JwtSigningKey);
                 }
                 else
                 {
@@ -49,6 +51,7 @@ namespace Periodic.Data
                 usr.Email = sreq.Email;
                 usr.PasswordHash = hashing.HashToString(sreq.Password);
                 usr.IsEnabled = false;
+                usr.IsAdmin = false;
                 usr.DateCreated = DateTime.Now;
 
                 _userContext.Users.Add(usr);
