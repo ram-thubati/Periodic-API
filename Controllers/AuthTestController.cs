@@ -6,7 +6,7 @@ using Microsoft.Net.Http.Headers;
 
 namespace Periodic.Controllers
 {
-    [Authorize(Roles = "A")]
+    [Authorize(Roles = "Administrator")]
     [Route("/api/test")]
     [ApiController]
     public class AuthTestController : ControllerBase

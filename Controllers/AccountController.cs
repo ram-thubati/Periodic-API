@@ -1,3 +1,5 @@
+using System.Security.Claims;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Periodic.Data;
@@ -6,28 +8,32 @@ using Periodic.Models;
 
 namespace Periodic.Controllers
 {
-    [Route("api/users/{usr_id:int}/accounts")]
+    [Authorize(Roles = "Administrator, User")]
+    [Route("api/accounts")]
     [ApiController]
     public class AccountController : ControllerBase
     {
-        public AccountController(IPeriodicRepo repo)
+        private IPeriodicRepo _repo;
+        private readonly int usr_id;
+        
+        public AccountController(IPeriodicRepo repo, IHttpContextAccessor httpContextAccessor)
         {
             this._repo = repo;
+            
+            usr_id = Convert.ToInt32(httpContextAccessor.HttpContext.User.FindFirst(ClaimTypes.NameIdentifier).Value);
         }
 
-        private IPeriodicRepo _repo;
-
-
         [HttpGet]
-        public ActionResult<IEnumerable<Account>> GetAllAccountsByUserId([FromRoute]int usr_id)
+        public ActionResult<IEnumerable<Account>> GetAllAccounts()
         {
+            
             var accs = this._repo.GetAllAccountsByUserId(usr_id);
             return Ok(accs);
         }
 
         [Route("{acc_id:int}")]
         [HttpGet]
-        public ActionResult<Account> GetAccountById([FromRoute]int usr_id, [FromRoute]int acc_id)
+        public ActionResult<Account> GetAccountById([FromRoute]int acc_id)
         {
             return this._repo.GetAccountById(usr_id,acc_id);
         }
@@ -37,7 +43,7 @@ namespace Periodic.Controllers
         {
             this._repo.CreateAccount(new_acc);
 
-            return CreatedAtAction("GetAccountById", new{usr_id = new_acc.UserId, acc_id = new_acc.Id}, new_acc);
+            return CreatedAtAction("GetAccountById", new{acc_id = new_acc.Id}, new_acc);
         }
 
         [Route("{acc_id:int}")]
@@ -50,7 +56,7 @@ namespace Periodic.Controllers
 
         [Route("{acc_id:int}")]
         [HttpDelete]
-        public ActionResult DeleteAccount([FromRoute]int usr_id, [FromRoute]int acc_id)
+        public ActionResult DeleteAccount([FromRoute]int acc_id)
         {
             var acc_from_db = this._repo.GetAccountById(usr_id,acc_id);
             if(acc_from_db is null)
