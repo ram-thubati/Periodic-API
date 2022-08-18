@@ -3,9 +3,11 @@ using Microsoft.AspNetCore.Mvc;
 using Periodic.Models;
 using Periodic.Data;
 using System.Security.Claims;
+using Microsoft.AspNetCore.Authorization;
 
 namespace Periodic.Controllers
 {
+    [Authorize(Roles = "Administrator, User")]
     [Route("api/scheduled")]
     [ApiController]
     public class ScheduledController : ControllerBase
