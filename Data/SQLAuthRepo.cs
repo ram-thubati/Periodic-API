@@ -9,8 +9,10 @@ namespace Periodic.Data
     public class SQLAuthRepo : IAuthRepo
     {
         private SQLPeriodicDbContext _userContext;
-        public SQLAuthRepo(SQLPeriodicDbContext ctx)
-        {
+        private readonly IAppSecrets _appSecrets;
+        public SQLAuthRepo(SQLPeriodicDbContext ctx, IAppSecrets appSecrets)
+        {   
+            this._appSecrets = appSecrets;
             this._userContext = ctx;
         }
 
@@ -25,7 +27,7 @@ namespace Periodic.Data
                 {
                     string role = db_usr.IsAdmin? "Administrator" : "User";
                     
-                    return JwtAuthenticationManager.GetToken(db_usr.Id, role, Secrets.JwtSigningKey);
+                    return JwtAuthenticationManager.GetToken(db_usr.Id, role, _appSecrets.getJwtSigningKey());
                 }
                 else
                 {
