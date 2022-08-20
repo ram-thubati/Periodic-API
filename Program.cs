@@ -13,10 +13,14 @@ builder.Services.AddControllers();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
 
-builder.Services.AddDbContext<SQLPeriodicDbContext>(options => options.UseSqlServer(Secrets.SQLConnectionString));
+var appsecrets = new AWSAppSecrets();
+builder.Services.AddDbContext<SQLPeriodicDbContext>(options => options.UseSqlServer(appsecrets.getDbConnectionString()));
 
 builder.Services.AddScoped<IPeriodicRepo, SQLPeriodicRepo>();
 builder.Services.AddScoped<IAuthRepo, SQLAuthRepo>();
+builder.Services.AddSingleton<IAppSecrets, AWSAppSecrets>();
+
+
 builder.Services.AddHttpContextAccessor();
 
 builder.Services.AddAuthentication(x =>
@@ -30,7 +34,7 @@ builder.Services.AddAuthentication(x =>
     x.TokenValidationParameters = new TokenValidationParameters
     {
         ValidateIssuerSigningKey = true,
-        IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(Secrets.JwtSigningKey)),
+        IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(appsecrets.getJwtSigningKey())),
         ValidateIssuer = false,
         ValidateAudience = false
     };
