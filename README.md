@@ -55,7 +55,8 @@ Content-Type: application/json
 Content-Length: xy
 
 {
-   <Signed JSON Web Token>
+   "userName": "foo",
+   "token": "dfkhdkg.fgkjsdhg.ghfgdjgf"
 }
 
 ```
