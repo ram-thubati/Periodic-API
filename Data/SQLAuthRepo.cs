@@ -2,6 +2,7 @@ using Periodic.Models;
 using Periodic.Helpers;
 using Periodic.Data;
 using Periodic.Models.Requests;
+using Periodic.Models.Responses;
 using Periodic.Secret;
 
 namespace Periodic.Data
@@ -17,7 +18,7 @@ namespace Periodic.Data
         }
 
         private HashingManager hashing = new HashingManager();
-        public string LoginUser(LoginRequest lreq)
+        public LoginResponse LoginUser(LoginRequest lreq)
         {
             var db_usr = _userContext.Users.First(x => x.UserName == lreq.UserName);
             if (db_usr != null)
@@ -26,8 +27,11 @@ namespace Periodic.Data
                 if (isMatch)
                 {
                     string role = db_usr.IsAdmin? "Administrator" : "User";
-                    
-                    return JwtAuthenticationManager.GetToken(db_usr.Id, role, _appSecrets.getJwtSigningKey());
+
+                    var resp = new LoginResponse();
+                    resp.UserName = db_usr.UserName;
+                    resp.Token = JwtAuthenticationManager.GetToken(db_usr.Id, role, _appSecrets.getJwtSigningKey());
+                    return resp;
                 }
                 else
                 {

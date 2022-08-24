@@ -1,5 +1,5 @@
 using Periodic.Models.Requests;
-
+using Periodic.Models.Responses;
 
 namespace Periodic.Data
 {
@@ -7,7 +7,7 @@ namespace Periodic.Data
     {
         public void SignupUser(SignupRequest sreq);
 
-        public string LoginUser(LoginRequest lreq);
+        public LoginResponse LoginUser(LoginRequest lreq);
 
     }
 }

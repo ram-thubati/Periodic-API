@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Mvc;
 using Periodic.Data;
 using Periodic.Helpers;
 using Periodic.Models.Requests;
+using Periodic.Models.Responses;
 
 namespace Periodic.Controllers
 {
@@ -20,12 +21,12 @@ namespace Periodic.Controllers
 
         [Route("login")]
         [HttpPost]
-        public ActionResult<string> LoginUser([FromBody]LoginRequest lreq)
+        public ActionResult<LoginResponse> LoginUser([FromBody]LoginRequest lreq)
         {
             try
             {
-                var token = this._arepo.LoginUser(lreq);
-                return Ok(token);
+                var resp = this._arepo.LoginUser(lreq);
+                return Ok(resp);
             }
             catch(Exception e)
             {
